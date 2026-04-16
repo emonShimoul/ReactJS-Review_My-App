@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
+import { fetchPosts } from "../services/postService";
 
 
-const useFetchPosts = (url) => {
+const useFetchPosts = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
 
     useEffect(() => {
-        const fetchData = async () => {
+        const getPosts = async () => {
             try{
-                setError(null);
-                const res = await fetch(url);
-                const result = await res.json();
+                const result = await fetchPosts();
                 setData(result);
             } catch(err) {
                 setError(err);
@@ -21,8 +20,8 @@ const useFetchPosts = (url) => {
             }
         };
 
-        fetchData();
-    }, [url]);
+        getPosts();
+    }, []);
 
     return {data, loading, error};
 };
