@@ -1,16 +1,18 @@
 import Post from './Post';
 
-const PostList = ({posts, onDeletePost}) => {
+const PostList = ({posts, onDelete}) => {
+    if (posts.length === 0) {
+        return <p className="text-center mt-4">No posts available</p>;
+    }
     return (
         <div className="space-y-3 mt-4">
-            {posts.length === 0 && <p className="text-center mt-4">No posts available</p>}
             {posts.map(post => (
             <Post
                 key={post.id}
                 id={post.id}
                 title={post.title}
                 description={post.body}
-                handleDeletePost = {onDeletePost}
+                onDelete = {onDelete}
             />
             ))}
         </div>

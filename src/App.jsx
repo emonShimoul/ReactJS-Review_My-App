@@ -1,28 +1,16 @@
 import { useEffect, useState } from "react";
 import PostForm from "./components/PostForm";
 import PostList from "./components/PostList";
+import useFetchData from "./hooks/useFetchData";
 
 function App() {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   
+  const {data, loading, error} = useFetchData("https://jsonplaceholder.typicode.com/posts");
+
   useEffect(() => {
-    const fetchPosts = async() => {
-      try{
-        const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-        const data = await res.json();
-        setPosts(data.slice(0,5)); // limit for UI
-      } catch(error){
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchPosts();
-  },[]);
+    setPosts(data.slice(0,5));
+  }, [data]);
 
   const handleAddPost = (newPost) => {
     setPosts(prev => [newPost, ...prev]);
@@ -42,7 +30,7 @@ function App() {
 
       <div className="bg-white shadow-md p-4 rounded">
         <PostForm onAddPost={handleAddPost} />
-        <PostList posts={posts} onDeletePost={handleDeletePost} />
+        <PostList posts={posts} onDelete={handleDeletePost} />
       </div>
     </div>
   );
