@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import PostForm from "./components/PostForm";
 import PostList from "./components/PostList";
-import useFetchData from "./hooks/useFetchData";
+import useFetchPosts from "./hooks/useFetchPosts";
 
 function App() {
   const [posts, setPosts] = useState([]);
   
-  const {data, loading, error} = useFetchData("https://jsonplaceholder.typicode.com/posts");
+  const {data, loading, error} = useFetchPosts("https://jsonplaceholder.typicode.com/posts");
 
   useEffect(() => {
     setPosts(data.slice(0,5));
